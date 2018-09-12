@@ -34,8 +34,8 @@ service = build('fusiontables', 'v1', developerKey=API_KEY)
 TABLE_ID = '1Kqc5TOhnqJPFWoRMWiYEKafbWp7PDu0T98-PUWaO'
 
 # This is the default columns for the query
-query_cols = []
-query_values = ['US Open'] #Change to be the value(s) you're querying in the column you've specified
+query_cols = ['tourney_name', 'surface', 'winner_name', 'winner_rank', 'loser_name', 'loser_rank', 'score', 'minutes', 'best_of']
+query_values = ['Novak Djokovic'] #Change to be the value(s) you're querying in the column you've specified
 
 # Import the Flask Framework
 from flask import Flask, request
@@ -71,7 +71,7 @@ def make_query(cols, values, limit):
     string_values = string_values[2:len(string_values)]
     
     #Change this query to have your corresponding column (in our soccer example, the column for our WHERE is Scorer).
-    query = "SELECT " + string_cols + " FROM " + TABLE_ID + " WHERE tourney_name = '" + string_values + "'"
+    query = "SELECT " + string_cols + " FROM " + TABLE_ID + " WHERE winner_name = '" + string_values + "'" + " AND best_of = 5"
 
     query = query + " LIMIT " + str(limit)
 
@@ -87,7 +87,7 @@ def make_query(cols, values, limit):
 def index():
     template = JINJA_ENVIRONMENT.get_template('templates/index.html')
     request = service.column().list(tableId=TABLE_ID)
-    res = get_all_data(make_query([], query_values, 5)) #5 is our limit we're passing in
+    res = get_all_data(make_query(query_cols, query_values, 20)) #5 is our limit we're passing in
     logging.info('allheaders')
     return template.render(columns=res['columns'], rows = res['rows'] )
 

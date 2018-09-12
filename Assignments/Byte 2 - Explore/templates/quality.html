@@ -46,27 +46,37 @@
       <!-- Main jumbotron for a primary marketing message or call to action -->
       <div class="jumbotron">
 	<h1>Quality: About This Data Set</h1>
-        <p>Write a brief summary about the quality of the data set here</a></p>
+        <p>This dataset is well-organized and well-cleaned.</a></p>
       </div>
 
     
       <div class="page-header">
 	<h2>Is the data complete?</h2>
-	<p>If not, what is missing and what concerns does it raise?
-	What is your evidence for this?</p>
+	<p>It is not. There are some missing values in columns such as "winner_height" and "winner_seed".
+	I found those missing values by examing the dataset with pandas isna() function (which checks all values 
+    in a dataset that is N/A or not). <br/>
+    Luckily, some columns seems not relevant for what I want, for this part of data, I can just discard the whole
+    column. However, for some other columns, such as "winner_rank", "surface" and "loser_rank", I need to replace them
+    with a new value. I think the decision can be made depend on the nature of the column. For example, the players
+    does not have rank are mostly with a very low rank and are not in the ATP ranking database. In this case, I give
+    all players the save value which is lower than the lowest available rank in the database. For columns like "surface",
+    clearly it is not reasonable to assign a random value to it. Hence I made a "Unknown" value and put it in the missing values.</p>
       </div>
       
       <div class="page-header">
 	<h2>Is the data coherent?</h2>
-	<p>Does it make sense relative to itself? Does it match your
-	expectations? Are the distributions sensible? What is your
-	evidence for this?</p>
+	<p>This dataset is coherent and it make sense. I explored the relationship between several columns and graphed as below.
+    I checked the number of appearance of each player's name in both winner_name and loser_name column. Clearly, most players with
+    higher rank appeared in the winner_name column the most often, while it is different for low-ranked players. Moreover, I did sanity-check on some columns as well. For example, the 
+    rank of a player in the same tournament should remain same and there should not have two players holding the same rank in a tournament.<br/>
+    Based on my experience of watching tennis, I think these phomonema observed in the dataset make sense and are coherent to my knowledge.</p>
       </div>
 
       <div class="page-header">
 	<h2>Is the data correct?</h2>
-	<p>What aspects of this data can you verify? How did you do so? What did
-	you find?</p>
+	<p>I can verify the data by cross-checking columns of it with the ATP official data. I chose several columns: "winner_rank", "score" and "surface"
+	from randomly-selected 20 rows and compared these values to the official data. I also selected 5 rows from the 20 above and checked the remaining
+	columns. It appears that the data I checked can all match the official data, hence I believe that the data is correct.</p>
       </div>
 
     </div> <!-- /container -->
